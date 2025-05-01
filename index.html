@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Maze Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maze Adventure</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Maze Game</h1>
-    <canvas id="gameCanvas" width="800" height="640"></canvas>
-    <script type="module" src="js/main.js"></script>
+  <!-- <h1>Maze Adventure</h1> -->
+
+  <!-- Timer Display -->
+  <div id="timer">Time Left: ...</div>
+
+  <div id="start-overlay">
+    <div class="start-container">
+      <img id="start-image" src="assets/cover.png" alt="Start Screen" />
+      <div class="start-text">
+        <div class="start-title">Maze Adventure</div>
+        <div class="start-subtitle">Press Enter to Start</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas container for overlay positioning -->
+  <div id="canvas-container">
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Game Over Overlay -->
+    <div id="game-over-overlay">Game Over</div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" src="assets/background_music.ogg" loop></audio>
+  <audio id="gameover-sfx" src="assets/gameover.ogg" preload="auto"></audio>
+  <audio id="win-sfx" src="assets/victory.ogg" preload="auto"></audio>
+  <!-- Game Code -->
+  <script type="module" src="js/main.js"></script>  
 </body>
 </html>

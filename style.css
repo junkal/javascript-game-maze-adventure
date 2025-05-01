@@ -7,6 +7,89 @@ body {
 canvas {
     display: block;
     margin: 0 auto;
-    background-color: #ffffff;
     border: 2px solid black;
-}
+    background-image: url("assets/background.png");
+    background-repeat: repeat;
+    background-size: auto; /* or '64px 64px' if you want exact tiling */
+  }
+
+  #timer {
+    font-size: 24px; 
+    font-weight: bold;
+    color: #555555; 
+    margin-bottom: 5px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+
+  #game-over-overlay {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    padding: 20px 40px;
+    border-radius: 10px;
+    z-index: 10;
+  }
+  
+  #canvas-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  #start-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    z-index: 100;
+    text-align: center;
+  }
+  
+  #start-overlay div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #start-image {
+    max-width: 50%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .start-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  }
+  
+  .start-title {
+    font-size: 60px;        /* 🔎 Bigger main title */
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .start-subtitle {
+    font-size: 30px;        /* 👈 Smaller subtitle */
+    font-weight: normal;
+  }
