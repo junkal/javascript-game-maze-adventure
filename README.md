@@ -1,1 +1,1 @@
-# javascript-game-maze-adventure
+# Maze Adventure
