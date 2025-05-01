@@ -1,7 +1,7 @@
 body {
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: rgb(79, 85, 79);
 }
 
 canvas {
@@ -16,7 +16,7 @@ canvas {
   #timer {
     font-size: 24px; 
     font-weight: bold;
-    color: #555555; 
+    color: #fefcfc; 
     margin-bottom: 5px;
     text-align: center;
     font-family: 'Arial', sans-serif;
@@ -29,7 +29,7 @@ canvas {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(0, 0, 0, 0.75);
-    color: white;
+    color: rgb(255, 255, 255);
     font-size: 36px;
     font-weight: bold;
     padding: 20px 40px;
@@ -84,12 +84,17 @@ canvas {
   }
   
   .start-title {
-    font-size: 60px;        /* 🔎 Bigger main title */
+    font-size: 60px;
     font-weight: bold;
     margin-bottom: 15px;
   }
   
   .start-subtitle {
-    font-size: 30px;        /* 👈 Smaller subtitle */
+    font-size: 30px;
+    font-weight: normal;
+  }
+
+  .restart-prompt {
+    font-size: 16px;
     font-weight: normal;
   }

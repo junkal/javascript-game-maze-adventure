@@ -14,6 +14,7 @@ export class Game {
         this.maze = new Maze(width, height);
         this.player = new Player(1, 1);
         this.goal = { x: width - 2, y: height - 2 };
+        this.readyToRestart = false;
 
         // Load background image
         this.bgImage = new Image();
@@ -50,7 +51,7 @@ export class Game {
         if (timerDisplay) {
           timerDisplay.textContent = `Time Left: ${CONFIG.timeLimit}s`;
         }        
-        this.handleInput();
+        // this.handleInput();
         requestAnimationFrame(() => this.loop());
     }
     
@@ -58,8 +59,26 @@ export class Game {
         if (!this.gameOver) {
             this.updateTimer();
             this.player.update();
+
+            if (this.player.gridX === this.goal.x && this.player.gridY === this.goal.y) {
+                this.gameOver = true;
+                this.readyToRestart = true;
+
+                const overlay = document.getElementById("game-over-overlay");
+                if (overlay) {
+                    overlay.innerHTML = `
+                    🎉 You Win!<br>
+                    Maze Completed<br><br>
+                    <div class="restart-prompt">Press Enter to Continue</div>
+                  `;                    
+                    overlay.style.display = "block";
+                }
+
+                const sfx = document.getElementById("win-sfx");
+                if (sfx) sfx.play().catch(() => {});
+            }
         }
-    
+
         this.draw();
         requestAnimationFrame(() => this.loop());
     }
@@ -92,36 +111,6 @@ export class Game {
                 
               }
         }
-    }
-
-    handleInput() {
-        document.addEventListener("keydown", (e) => {
-            const keyMap = {
-                ArrowUp: [0, -1],
-                ArrowDown: [0, 1],
-                ArrowLeft: [-1, 0],
-                ArrowRight: [1, 0],
-            };
-
-            const move = keyMap[e.key];
-            if (move && !this.gameOver) {
-                this.player.move(move[0], move[1], this.maze);
-                this.draw();
-            
-                if (this.player.gridX === this.goal.x && this.player.gridY === this.goal.y) {
-                    if (!this.gameOver) {
-                      this.gameOver = true;
-                      const overlay = document.getElementById("game-over-overlay");
-                      if (overlay) {
-                        overlay.textContent = "🎉 You Win!";
-                        overlay.style.display = "block";
-                      }
-                      const sfx = document.getElementById("win-sfx");
-                      if (sfx) sfx.play().catch(() => {});                      
-                    }
-                  }
-            }            
-        });
     }
 
     draw() {
