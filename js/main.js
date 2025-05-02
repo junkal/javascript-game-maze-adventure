@@ -19,6 +19,7 @@ const assetList = [
 
 const assetManager = new AssetManager(assetList);
 
+// Callback to run once all assets are loaded
 assetManager.onReady(() => {
     const coverImg = document.getElementById("start-overlay");
     if (coverImg) {
@@ -28,6 +29,7 @@ assetManager.onReady(() => {
     document.getElementById("start-overlay").style.display = "block";
 });
 
+// Start game when called (typically via Enter key)
 window.startGame = function () {
     const gameOverOverlay = document.getElementById("game-over-overlay");
     if (gameOverOverlay) gameOverOverlay.style.display = "none";
@@ -54,6 +56,7 @@ window.startGame = function () {
     requestAnimationFrame(loop);
 };
 
+// Main game loop: handles input and triggers rendering
 function loop() {
     eventHandler?.update();
     game?.renderer?.draw();

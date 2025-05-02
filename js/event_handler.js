@@ -1,6 +1,17 @@
 import { CONFIG } from './config.js';
 
+/**
+ * EventHandler
+ * ------------
+ * Handles keyboard input for player movement, pause toggling, and game start/restart.
+ * It manages key hold behavior with move cooldown, and delegates control flow to the Game instance.
+ */
 export class EventHandler {
+    /**
+     * Constructs the EventHandler and sets up input mappings and listeners.
+     * 
+     * @param {Game} game - The Game instance to control
+     */    
     constructor(game) {
         this.game = game;
         this.heldKey = null;
@@ -16,11 +27,19 @@ export class EventHandler {
         this.registerListeners();
     }
   
+    /**
+     * Registers keydown and keyup event listeners for the game.
+     */    
     registerListeners() {
         document.addEventListener("keydown", (e) => this.onKeyDown(e));
         document.addEventListener("keyup", (e) => this.onKeyUp(e));
     }
   
+    /**
+     * Handles keydown events for movement, pausing, and game start/restart.
+     * 
+     * @param {KeyboardEvent} e - The keydown event
+     */    
     onKeyDown(e) {
         if (this.keyMap[e.key]) {
             this.heldKey = e.key;
@@ -53,6 +72,11 @@ export class EventHandler {
         }
     }
   
+    /**
+     * Handles keyup events to stop movement.
+     * 
+     * @param {KeyboardEvent} e - The keyup event
+     */    
     onKeyUp(e) {
         if (e.key === this.heldKey) {
             this.heldKey = null;
@@ -60,6 +84,10 @@ export class EventHandler {
         }
     }
   
+    /**
+     * Called every game frame to apply continuous movement input.
+     * Uses a cooldown to prevent movement from being too fast while a key is held.
+     */    
     update() {
         if (this.heldKey && !this.game.gameOver) {
             const move = this.keyMap[this.heldKey];

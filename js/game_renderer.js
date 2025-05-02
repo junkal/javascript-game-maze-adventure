@@ -1,4 +1,17 @@
+/**
+ * GameRenderer
+ * ------------
+ * Responsible for rendering all visual elements of the game using the Canvas API.
+ * This includes the background, maze layout, player sprite, goal image, and pause overlay.
+ * All rendering is delegated here to keep game logic and visuals cleanly separated.
+ */
 export class GameRenderer {
+    /**
+     * Constructs a new GameRenderer tied to the provided game instance.
+     * Sets up image loading for background, player, and goal.
+     * 
+     * @param {Game} game - Reference to the main game instance
+     */    
     constructor(game) {
         this.game = game;
         this.ctx = game.ctx;
@@ -21,6 +34,10 @@ export class GameRenderer {
         this.goalImage.onload = () => { this.goalImageLoaded = true; };
     }
 
+    /**
+     * The main draw method called every frame.
+     * Draws background, maze, goal, player, and pause overlay if applicable.
+     */    
     draw() {
         this.drawBackground();
         this.drawMaze();
@@ -32,6 +49,10 @@ export class GameRenderer {
         }
     }
 
+    /**
+     * Draws the canvas background using a repeating image pattern,
+     * or a fallback color if the image isn't loaded yet.
+     */    
     drawBackground() {
         if (this.bgImageLoaded) {
             const pattern = this.ctx.createPattern(this.bgImage, 'repeat');
@@ -42,6 +63,9 @@ export class GameRenderer {
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    /**
+     * Draws the maze walls using solid black rectangles for each wall cell.
+     */    
     drawMaze() {
         const tileSize = this.game.tileSize;
         const maze = this.game.maze;
@@ -61,6 +85,10 @@ export class GameRenderer {
         }
     }
 
+    /**
+     * Draws the goal image at its grid position.
+     * If the image is not loaded, draws a green placeholder square.
+     */    
     drawGoal() {
         const { x, y } = this.game.goal;
         const tileSize = this.game.tileSize;
@@ -88,6 +116,10 @@ export class GameRenderer {
         }
     }
 
+    /**
+     * Draws the player sprite at its interpolated (animated) position.
+     * If the image is not loaded, draws a blue square.
+     */    
     drawPlayer() {
         const { x, y } = this.game.player;
         const tileSize = this.game.tileSize;
@@ -115,6 +147,10 @@ export class GameRenderer {
         }
     }
 
+
+    /**
+     * Displays a translucent "⏸ Paused" overlay when the game is paused.
+     */    
     drawPauseOverlay() {
         this.ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
