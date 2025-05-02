@@ -1,5 +1,6 @@
 import { Maze } from './maze.js';
 import { Player } from './player.js';
+import { GameRenderer } from './game_renderer.js';
 import { CONFIG } from './config.js';
 
 export class Game {
@@ -16,47 +17,23 @@ export class Game {
         this.goal = { x: width - 2, y: height - 2 };
         this.readyToRestart = false;
 
-        // Load background image
-        this.bgImage = new Image();
-        this.bgImage.src = 'assets/background.png';
-        this.bgImageLoaded = false;
-        this.bgImage.onload = () => {
-            this.bgImageLoaded = true;
-            this.draw();
-        };
-
-        // Load player sprite
-        this.playerImage = new Image();
-        this.playerImage.src = 'assets/knight.png';
-        this.playerImageLoaded = false;
-        this.playerImage.onload = () => {
-            this.playerImageLoaded = true;
-            this.draw();
-        };
-
-        // Load goal sprite
-        this.goalImage = new Image();
-        this.goalImage.src = 'assets/gate.png';
-        this.goalImageLoaded = false;
-        this.goalImage.onload = () => {
-            this.goalImageLoaded = true;
-            this.draw();
-        };
-
         this.remainingTime = CONFIG.timeLimit;
         this.lastTimeUpdate = Date.now();
         this.gameOver = false;
+        this.paused = false;
 
         const timerDisplay = document.getElementById("timer");
         if (timerDisplay) {
           timerDisplay.textContent = `Time Left: ${CONFIG.timeLimit}s`;
         }        
-        // this.handleInput();
+
+        this.renderer = new GameRenderer(this);
+
         requestAnimationFrame(() => this.loop());
     }
     
     loop() {
-        if (!this.gameOver) {
+        if (!this.gameOver && !this.paused) {
             this.updateTimer();
             this.player.update();
 
@@ -79,7 +56,7 @@ export class Game {
             }
         }
 
-        this.draw();
+        this.renderer.draw();
         requestAnimationFrame(() => this.loop());
     }
 
@@ -112,87 +89,10 @@ export class Game {
               }
         }
     }
-
-    draw() {
-        if (this.bgImageLoaded) {
-            const pattern = this.ctx.createPattern(this.bgImage, 'repeat');
-            this.ctx.fillStyle = pattern;
-        } else {
-            this.ctx.fillStyle = "#f0f0f0";
-        }
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.drawMaze();
-        this.drawGoal();
-        this.drawPlayer();
-
-    }
-
-    drawMaze() {
-        for (let y = 0; y < this.maze.height; y++) {
-            for (let x = 0; x < this.maze.width; x++) {
-                if (this.maze.grid[y][x] === 1) {
-                    this.ctx.fillStyle = "black";
-                    this.ctx.fillRect(
-                        x * this.tileSize,
-                        y * this.tileSize,
-                        this.tileSize,
-                        this.tileSize
-                    );
-                }
-            }
-        }
-    }
-
-    drawGoal() {
-        const { x, y } = this.goal;
     
-        if (this.goalImageLoaded) {
-            const scale = 2;
-            const size = this.tileSize * scale;
-            const offset = (size - this.tileSize) / 2;
-    
-            this.ctx.drawImage(
-                this.goalImage,
-                x * this.tileSize - offset,
-                y * this.tileSize - offset,
-                size,
-                size
-            );
-        } else {
-            // fallback green square
-            this.ctx.fillStyle = "green";
-            this.ctx.fillRect(
-                x * this.tileSize + 4,
-                y * this.tileSize + 4,
-                this.tileSize - 8,
-                this.tileSize - 8
-            );
-        }
-    }
-
-    drawPlayer() {
-        const { x, y } = this.player;
-
-        if (this.playerImageLoaded) {
-            const scale = 2;
-            const size = this.tileSize * scale;
-            const offset = (size - this.tileSize) / 2;
-            this.ctx.drawImage(
-                this.playerImage,
-                x * this.tileSize - offset,
-                y * this.tileSize - offset,
-                size,
-                size
-            ); 
-        } else {
-            this.ctx.fillStyle = "blue";
-            this.ctx.fillRect(
-                x * this.tileSize,
-                y * this.tileSize,
-                this.tileSize,
-                this.tileSize
-            );
+    togglePause() {
+        if (!this.gameOver) {
+            this.paused = !this.paused;
         }
     }
 }
